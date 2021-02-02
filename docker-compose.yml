@@ -173,6 +173,41 @@ services:
         reservations:
           memory: 128M
 
+  vector:
+    image: timberio/vector:0.11.X-alpine
+    networks:
+      - net
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    configs:
+      - source: vector
+        target: /etc/vector/vector.toml
+    deploy:
+      mode: global
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 64M
+
+  loki:
+    image: grafana/loki:2.1.0
+    ports:
+      - "3100:3100"
+    networks:
+      - net
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 64M          
+
   caddy:
     image: stefanprodan/caddy
     ports:
