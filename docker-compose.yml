@@ -19,6 +19,8 @@ configs:
     file: ./prometheus/rules/swarm_node.rules.yml
   task_rules:
     file: ./prometheus/rules/swarm_task.rules.yml
+  vector:
+    file: ./vector/vector.toml
 
 services:
   dockerd-exporter:
